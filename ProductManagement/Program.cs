@@ -1,6 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 
-namespace UserManagement
+namespace ProductManagement
 {
     public class Program
     {
@@ -15,14 +14,6 @@ namespace UserManagement
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Database context dependency injection
-
-            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
-            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
-            var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
-            var connectionString = $"Data Source={dbHost}; Initial Catalog={dbName}; User ID=sa; Password={dbPassword}; TrustServerCertificate=true";
-            builder.Services.AddDbContext<UserDbContext>(opt => opt.UseSqlServer(connectionString));
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,7 +22,10 @@ namespace UserManagement
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseAuthorization();
+
+
             app.MapControllers();
 
             app.Run();
