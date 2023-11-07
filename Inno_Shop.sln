@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{19638C0B-14E9-491B-AF84-740C9DEF5F69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement", "UserManagement\UserManagement.csproj", "{CF72917E-0831-4E58-8424-797A163A62C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF72917E-0831-4E58-8424-797A163A62C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF72917E-0831-4E58-8424-797A163A62C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF72917E-0831-4E58-8424-797A163A62C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF72917E-0831-4E58-8424-797A163A62C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF72917E-0831-4E58-8424-797A163A62C5} = {19638C0B-14E9-491B-AF84-740C9DEF5F69}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F83A7865-D1CF-42F8-9D34-7F7FF839F6A9}
+	EndGlobalSection
+EndGlobal
