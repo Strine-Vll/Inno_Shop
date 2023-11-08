@@ -34,8 +34,6 @@ services:
       dockerfile: UserManagement/Dockerfile
     networks:
       - backend
-    ports:
-      - 8002:80
     environment:
       - DB_HOST=userdb
       - DB_NAME=user
@@ -49,10 +47,20 @@ services:
       dockerfile: ProductManagement/Dockerfile
     networks:
       - backend
-    ports:
-      - 8004:80
     environment:
       - DB_HOST=productdb
       - DB_NAME=product
       - DB_SA_PASSWORD=password@12345#
+
+
+  apigateway:
+    container_name: api-gateway
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - 8001:80
+    networks:
+      - backend
 

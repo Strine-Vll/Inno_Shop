@@ -1,0 +1,61 @@
+{
+  "Routes": [
+    //UserManagement configs
+    {
+      "UpstreamPathTemplate": "/api/User",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User"
+    },
+    {
+      "UpstreamPathTemplate": "/api/User/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User/{id}"
+    },
+    //ProductManagement configs
+    {
+      "UpstreamPathTemplate": "/api/Product",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "productmanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Product"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Product/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "productmanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Product/{id}"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:800"
+  }
+}
