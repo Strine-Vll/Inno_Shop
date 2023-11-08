@@ -14,6 +14,18 @@ services:
       - SA_PASSWORD=password@12345#
     networks:
       - backend
+
+  productdb:
+    container_name: product-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+        - 8003:1433 
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=password@12345#
+    networks:
+        - backend
+
   usermanagement:
     container_name: user-api
     image: ${DOCKER_REGISTRY-}usermanagement
@@ -28,3 +40,19 @@ services:
       - DB_HOST=userdb
       - DB_NAME=user
       - DB_SA_PASSWORD=password@12345#
+
+  productmanagement:
+    container_name: product-api
+    image: ${DOCKER_REGISTRY-}productmanagement
+    build:
+      context: .
+      dockerfile: ProductManagement/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8004:80
+    environment:
+      - DB_HOST=productdb
+      - DB_NAME=product
+      - DB_SA_PASSWORD=password@12345#
+
