@@ -13,9 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagement", "Produc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{907A905A-6B5A-47F3-82FA-132B52CD7ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{F474BDC9-C59B-42EA-A855-3FF989031067}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationManager", "AuthenticationManager\AuthenticationManager.csproj", "{3D022DCE-5FAA-4A26-B295-C919B6BF1539}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{F474BDC9-C59B-42EA-A855-3FF989031067}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,6 @@ Global
 		{F474BDC9-C59B-42EA-A855-3FF989031067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F474BDC9-C59B-42EA-A855-3FF989031067}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F474BDC9-C59B-42EA-A855-3FF989031067}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D022DCE-5FAA-4A26-B295-C919B6BF1539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D022DCE-5FAA-4A26-B295-C919B6BF1539}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D022DCE-5FAA-4A26-B295-C919B6BF1539}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D022DCE-5FAA-4A26-B295-C919B6BF1539}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

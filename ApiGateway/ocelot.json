@@ -27,10 +27,23 @@
       ],
       "DownstreamPathTemplate": "/api/User/{id}"
     },
+    {
+      "UpstreamPathTemplate": "/api/Identity",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Identity"
+    },
     //ProductManagement configs
     {
       "UpstreamPathTemplate": "/api/Product",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "UpstreamHttpMethod": [ "Get" ],
 
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -42,8 +55,42 @@
       "DownstreamPathTemplate": "/api/Product"
     },
     {
+      "UpstreamPathTemplate": "/api/Product",
+      "UpstreamHttpMethod": [ "Post", "Put" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "productmanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Product",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
       "UpstreamPathTemplate": "/api/Product/{id}",
-      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "UpstreamHttpMethod": [ "Delete" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "productmanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Product/{id}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/Product/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
 
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -56,6 +103,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:800"
+    "BaseUrl": "http://localhost:8004"
   }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Models;
+using ProductManagement.Repositories;
 
 namespace ProductManagement.Controllers
 {

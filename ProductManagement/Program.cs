@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using ProductManagement.Repositories;
 
 namespace ProductManagement
 {
@@ -14,7 +15,6 @@ namespace ProductManagement
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
             var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
             var dbName = Environment.GetEnvironmentVariable("DB_NAME");
@@ -23,13 +23,6 @@ namespace ProductManagement
             builder.Services.AddDbContext<ProductDbContext>(opt => opt.UseSqlServer(connectionString));
 
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
 
             app.UseAuthorization();
 

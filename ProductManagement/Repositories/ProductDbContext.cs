@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using UserManagement.Models;
+using ProductManagement.Models;
 
-namespace UserManagement
+namespace ProductManagement.Repositories
 {
-    public class UserDbContext : DbContext
+    public class ProductDbContext : DbContext
     {
-        public UserDbContext(DbContextOptions<UserDbContext> dbContextOptions) : base(dbContextOptions) 
+        public ProductDbContext(DbContextOptions<ProductDbContext> dbContextOptions) : base(dbContextOptions)
         {
             try
             {
@@ -24,6 +24,6 @@ namespace UserManagement
             }
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

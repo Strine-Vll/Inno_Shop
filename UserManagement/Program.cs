@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using UserManagement.Repositories;
 
 namespace UserManagement
 {
@@ -13,7 +14,6 @@ namespace UserManagement
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
             // Database context DI
 
@@ -25,12 +25,6 @@ namespace UserManagement
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
             app.UseAuthorization();
             app.MapControllers();
 
