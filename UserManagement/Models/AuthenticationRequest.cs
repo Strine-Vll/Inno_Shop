@@ -1,8 +1,12 @@
-﻿namespace UserManagement.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace UserManagement.Models
 {
     public class AuthenticationRequest
     {
-        public string UserName { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
         public string Password { get; set; }
     }
 }

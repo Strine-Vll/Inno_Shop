@@ -22,7 +22,7 @@ namespace ProductManagement.Models
         public string Description { get; set; }
 
         [Column("price")]
-        [Range(0, double.PositiveInfinity)]
+        [Range(0, double.PositiveInfinity, ErrorMessage = "Price must be greater than 0")]
         public decimal Price { get; set; }
 
         [Column("is_available")]

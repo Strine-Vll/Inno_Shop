@@ -28,7 +28,7 @@
       "DownstreamPathTemplate": "/api/User/{id}"
     },
     {
-      "UpstreamPathTemplate": "/api/Identity",
+      "UpstreamPathTemplate": "/api/User/login",
       "UpstreamHttpMethod": [ "Post" ],
 
       "DownstreamScheme": "http",
@@ -38,7 +38,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/Identity"
+      "DownstreamPathTemplate": "/api/User/login"
     },
     //ProductManagement configs
     {

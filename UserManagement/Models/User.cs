@@ -21,11 +21,21 @@ namespace UserManagement.Models
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string EmailAddress { get; set; }
 
+        [Column("role")]
+        public string Role { get; set; }
+
         [MinLength(5, ErrorMessage = "Password must contain at least 5 characters")]
         [Column("password")]
         public string Password { get; set; }
 
-        [Column("role")]
-        public string Role { get; set; }
+        public byte[] PasswordSalt { get; set; } = new byte[32];
+
+        public string? VerificationToken { get; set; }
+
+        public bool IsVerified { get; set; } = false;
+
+        public string? PasswordResetToken { get; set; }
+
+        public DateTime? ResetTokenExpires { get; set; } 
     }
 }
