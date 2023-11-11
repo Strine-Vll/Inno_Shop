@@ -152,7 +152,7 @@ namespace UserManagement.Controllers
         {
             var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.PasswordResetToken == request.ResetToken);
 
-            if (userAccount == null || userAccount.ResetTokenExpires >= DateTime.UtcNow)
+            if (userAccount == null || userAccount.ResetTokenExpires < DateTime.UtcNow)
             {
                 return BadRequest("Invalid token");
             }
