@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UserManagement.Repositories;
+using UserManagement.Services;
 
 namespace UserManagement
 {
@@ -12,7 +13,7 @@ namespace UserManagement
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddEndpointsApiExplorer();
 
             // Database context DI

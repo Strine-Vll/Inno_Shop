@@ -30,11 +30,11 @@ namespace UserManagement.Models
 
         public byte[] PasswordSalt { get; set; } = new byte[32];
 
-        public string? VerificationToken { get; set; }
+        public int? VerificationToken { get; set; }
 
         public bool IsVerified { get; set; } = false;
 
-        public string? PasswordResetToken { get; set; }
+        public int? PasswordResetToken { get; set; }
 
         public DateTime? ResetTokenExpires { get; set; } 
     }

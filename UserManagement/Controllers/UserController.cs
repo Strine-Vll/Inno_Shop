@@ -13,6 +13,7 @@ using MimeKit;
 using MimeKit.Text;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using UserManagement.Services;
 
 namespace UserManagement.Controllers
 {
@@ -24,10 +25,12 @@ namespace UserManagement.Controllers
         private const int JWT_TOKEN_VALIDITY_MINS = 30;
 
         private readonly UserDbContext _userDbContext;
+        private readonly IEmailService _emailService;
 
-        public UserController(UserDbContext userDbContext)
+        public UserController(UserDbContext userDbContext, IEmailService emailService)
         {
             _userDbContext = userDbContext;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -52,7 +55,7 @@ namespace UserManagement.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(User user)
         {
-            if(_userDbContext.Users.Any(u => u.EmailAddress == user.EmailAddress))
+            if (_userDbContext.Users.Any(u => u.EmailAddress == user.EmailAddress && u.IsVerified == true))
             {
                 return BadRequest("Something went wrong when creating the user, check the entered data");
             }
@@ -60,10 +63,23 @@ namespace UserManagement.Controllers
             user.Password = CreatePasswordHash(user.Password, out byte[] passwordSalt);
             user.PasswordSalt = passwordSalt;
 
+            do
+            {
+                user.VerificationToken = GenerateRandomCode();
+            }
+            while (_userDbContext.Users.Any(u => u.VerificationToken == user.VerificationToken));
+            
             await _userDbContext.Users.AddAsync(user);
             await _userDbContext.SaveChangesAsync();
 
-            SendEmail();
+            EmailDto emailDto = new()
+            {
+                To = user.EmailAddress,
+                Subject = "Email confirmation",
+                Body = $"Please, confirm your email address by entering this code {user.VerificationToken}"
+            };
+
+            await _emailService.SendEmail(emailDto);
 
             return Ok();
         }
@@ -72,13 +88,13 @@ namespace UserManagement.Controllers
         public async Task<ActionResult> Login([FromBody] AuthenticationRequest request)
         {
 
-            var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.EmailAddress == request.Email);
+            var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.EmailAddress == request.Email && account.IsVerified == true);
 
             if (userAccount == null)
             {
-                return Unauthorized("Invalid login or password");
+                return Unauthorized("Something went wrong. Try to check the correctness of the entered data or complete account verification");
             }
-            if(!VerifyPasswordHash(request.Password, userAccount.Password, userAccount.PasswordSalt))
+            if (!VerifyPasswordHash(request.Password, userAccount.Password, userAccount.PasswordSalt))
             {
                 return Unauthorized("Invalid login or password");
             }
@@ -88,8 +104,8 @@ namespace UserManagement.Controllers
             return Ok(token);
         }
 
-        [HttpPost("verifyemail")]
-        public async Task<ActionResult> VerifyEmail(string token)
+        [HttpPost("verify-email")]
+        public async Task<ActionResult> VerifyEmail(int token)
         {
             var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.VerificationToken == token);
 
@@ -98,7 +114,57 @@ namespace UserManagement.Controllers
                 return BadRequest();
             }
 
+            userAccount.VerificationToken = null;
+            userAccount.IsVerified = true;
+
             return Ok("Verification was successful");
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult> ForgotPassword(string email)
+        {
+            var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.EmailAddress == email);
+
+            if (userAccount == null)
+            {
+                return BadRequest();
+            }
+
+            userAccount.PasswordResetToken = GenerateRandomCode();
+            userAccount.ResetTokenExpires = DateTime.UtcNow.AddMinutes(5);
+
+            await _userDbContext.SaveChangesAsync();
+
+            EmailDto emailDto = new()
+            {
+                To = email,
+                Subject = "Password reset code",
+                Body = $"Please, enter this code to reset your password {userAccount.PasswordResetToken}"
+            };
+
+            await _emailService.SendEmail(emailDto);
+
+            return Ok("An email has been sent");
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<ActionResult> ResetPassword(ResetPasswordRequest request)
+        {
+            var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.PasswordResetToken == request.ResetToken);
+
+            if (userAccount == null || userAccount.ResetTokenExpires >= DateTime.UtcNow)
+            {
+                return BadRequest("Invalid token");
+            }
+
+            userAccount.Password = CreatePasswordHash(request.Password, out byte[] passwordSalt);
+            userAccount.PasswordSalt = passwordSalt;
+            userAccount.PasswordResetToken = null;
+            userAccount.ResetTokenExpires = null;
+
+            await _userDbContext.SaveChangesAsync();
+
+            return Ok("Succesfully reset password");
         }
 
         private string GenerateJwtToken(User userAccount)
@@ -129,25 +195,6 @@ namespace UserManagement.Controllers
             return token;
         }
 
-        public void SendEmail()
-        {
-            var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("ramiro.trantow@ethereal.email"));
-            email.To.Add(MailboxAddress.Parse("ramiro.trantow@ethereal.email"));
-            email.Subject = "Test";
-            email.Body = new TextPart(TextFormat.Html)
-            {
-                Text = "<h1>Burden</h1>"
-            };
-
-            using var smtp = new SmtpClient();
-            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("ramiro.trantow@ethereal.email", "WwvNff8Mg9JPa4NXd6");
-            smtp.Send(email);
-
-            smtp.Disconnect(true);
-        }
-
         private string CreatePasswordHash(string password, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -169,6 +216,11 @@ namespace UserManagement.Controllers
 
                 return translatedHash.Equals(passwordHash);
             }
+        }
+
+        private int GenerateRandomCode()
+        {
+            return RandomNumberGenerator.GetInt32(100000, 1000000);
         }
 
         [HttpPut]
