@@ -42,7 +42,7 @@
     },
     //ProductManagement configs
     {
-      "UpstreamPathTemplate": "/api/Product",
+      "UpstreamPathTemplate": "/api/Product/",
       "UpstreamHttpMethod": [ "Get" ],
 
       "DownstreamScheme": "http",
@@ -52,7 +52,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/Product"
+      "DownstreamPathTemplate": "/api/Product/"
     },
     {
       "UpstreamPathTemplate": "/api/Product",

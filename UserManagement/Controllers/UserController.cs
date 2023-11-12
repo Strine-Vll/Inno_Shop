@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using UserManagement.Models;
-using UserManagement.Repositories;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +13,7 @@ using MimeKit.Text;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using UserManagement.Services;
+using UserManagement.Data;
 
 namespace UserManagement.Controllers
 {
@@ -174,6 +174,7 @@ namespace UserManagement.Controllers
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, userAccount.EmailAddress),
+                new Claim("Id", userAccount.Id.ToString()),
                 new Claim("Role", userAccount.Role)
             });
 

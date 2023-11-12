@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using UserManagement.Models;
 
-namespace UserManagement.Repositories
+namespace UserManagement.Data
 {
     public class UserDbContext : DbContext
     {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using UserManagement.Repositories;
+using UserManagement.Data;
 using UserManagement.Services;
 
 namespace UserManagement

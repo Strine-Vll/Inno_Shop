@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using ProductManagement.Models;
 
-namespace ProductManagement.Repositories
+namespace ProductManagement.Data
 {
     public class ProductDbContext : DbContext
     {

@@ -26,12 +26,25 @@ namespace ProductManagement.Models
         public decimal Price { get; set; }
 
         [Column("is_available")]
-        public bool isAvailable { get; set; }
+        public bool IsAvailable { get; set; }
 
         [Column("user_id")]
         public int UserId { get; set; }
 
         [Column("creation_date")]
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
+
+        public Product() { }
+
+        public Product(int id, string productName, string description, decimal price, bool isAvailable, int userId, DateTime creationDate)
+        {
+            Id = id;
+            ProductName = productName;
+            Description = description;
+            Price = price;
+            IsAvailable = isAvailable;
+            UserId = userId;
+            CreationDate = creationDate;
+        }
     }
 }
