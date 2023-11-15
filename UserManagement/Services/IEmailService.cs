@@ -1,4 +1,4 @@
-﻿using UserManagement.Models;
+﻿using UserManagement.Dtos;
 
 namespace UserManagement.Services
 {

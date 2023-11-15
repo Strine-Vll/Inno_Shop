@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UserManagement.Models
+namespace UserManagement.Dtos
 {
     public class AuthenticationRequest
     {

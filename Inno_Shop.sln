@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{F474BDC9-C59B-42EA-A855-3FF989031067}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Tests", "UserManagement.Tests\UserManagement.Tests.csproj", "{7316B184-E0C9-4011-B142-590E0C735BDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagement.Tests", "ProductManagement.Tests\ProductManagement.Tests.csproj", "{EA0AF719-247C-4A85-8079-87C4B90BF5A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{F474BDC9-C59B-42EA-A855-3FF989031067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F474BDC9-C59B-42EA-A855-3FF989031067}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F474BDC9-C59B-42EA-A855-3FF989031067}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7316B184-E0C9-4011-B142-590E0C735BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7316B184-E0C9-4011-B142-590E0C735BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7316B184-E0C9-4011-B142-590E0C735BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7316B184-E0C9-4011-B142-590E0C735BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA0AF719-247C-4A85-8079-87C4B90BF5A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA0AF719-247C-4A85-8079-87C4B90BF5A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA0AF719-247C-4A85-8079-87C4B90BF5A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA0AF719-247C-4A85-8079-87C4B90BF5A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

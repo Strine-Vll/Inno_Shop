@@ -1,9 +1,9 @@
 ﻿using MailKit.Security;
 using MimeKit.Text;
 using MimeKit;
-using UserManagement.Models;
 using MailKit.Net.Smtp;
 using static Org.BouncyCastle.Math.EC.ECCurve;
+using UserManagement.Dtos;
 
 namespace UserManagement.Services
 {
@@ -19,7 +19,7 @@ namespace UserManagement.Services
         public async Task SendEmail(EmailDto request)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailHost").Value));
+            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
             email.To.Add(MailboxAddress.Parse(request.To));
             email.Subject = request.Subject;
             email.Body = new TextPart(TextFormat.Html)

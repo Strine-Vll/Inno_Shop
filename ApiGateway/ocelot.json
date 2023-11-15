@@ -2,20 +2,8 @@
   "Routes": [
     //UserManagement configs
     {
-      "UpstreamPathTemplate": "/api/User",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
-
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "usermanagement",
-          "Port": 80
-        }
-      ],
-      "DownstreamPathTemplate": "/api/User"
-    },
-    {
       "UpstreamPathTemplate": "/api/User/{id}",
+      "Priority": 1,
       "UpstreamHttpMethod": [ "Get", "Delete" ],
 
       "DownstreamScheme": "http",
@@ -26,6 +14,20 @@
         }
       ],
       "DownstreamPathTemplate": "/api/User/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/User",
+      "Priority": 0,
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User"
     },
     {
       "UpstreamPathTemplate": "/api/User/login",
@@ -39,6 +41,45 @@
         }
       ],
       "DownstreamPathTemplate": "/api/User/login"
+    },
+    {
+      "UpstreamPathTemplate": "/api/User/verify-email",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User/verify-email"
+    },
+    {
+      "UpstreamPathTemplate": "/api/User/forgot-password",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User/forgot-password"
+    },
+    {
+      "UpstreamPathTemplate": "/api/User/reset-password",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermanagement",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User/reset-password"
     },
     //ProductManagement configs
     {

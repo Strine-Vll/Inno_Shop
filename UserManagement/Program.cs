@@ -12,6 +12,7 @@ namespace UserManagement
 
             // Add services to the container.
 
+            builder.Services.AddAutoMapper(typeof(AppMappingProfile));
             builder.Services.AddControllers();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddEndpointsApiExplorer();

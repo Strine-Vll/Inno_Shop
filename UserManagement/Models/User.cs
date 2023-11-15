@@ -22,6 +22,7 @@ namespace UserManagement.Models
         public string EmailAddress { get; set; }
 
         [Column("role")]
+        [Required]
         public string Role { get; set; }
 
         [MinLength(5, ErrorMessage = "Password must contain at least 5 characters")]

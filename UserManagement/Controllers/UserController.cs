@@ -14,6 +14,8 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using UserManagement.Services;
 using UserManagement.Data;
+using AutoMapper;
+using UserManagement.Dtos;
 
 namespace UserManagement.Controllers
 {
@@ -26,21 +28,23 @@ namespace UserManagement.Controllers
 
         private readonly UserDbContext _userDbContext;
         private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
-        public UserController(UserDbContext userDbContext, IEmailService emailService)
+        public UserController(UserDbContext userDbContext, IEmailService emailService, IMapper mapper)
         {
             _userDbContext = userDbContext;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<User>> GetUser()
+        public ActionResult<IEnumerable<UserDto>> GetUser()
         {
-            return _userDbContext.Users;
+            return _mapper.Map<List<User>, List<UserDto>>(_userDbContext.Users.ToList());
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<User>> GetById(int id)
+        public async Task<ActionResult<UserDto>> GetById(int id)
         {
             var user = await _userDbContext.Users.FindAsync(id);
 
@@ -49,7 +53,7 @@ namespace UserManagement.Controllers
                 return NotFound();
             }
 
-            return user;
+            return _mapper.Map<User, UserDto>(user);
         }
 
         [HttpPost]
@@ -105,7 +109,7 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost("verify-email")]
-        public async Task<ActionResult> VerifyEmail(int token)
+        public async Task<ActionResult> VerifyEmail([FromBody] int token)
         {
             var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.VerificationToken == token);
 
@@ -114,14 +118,15 @@ namespace UserManagement.Controllers
                 return BadRequest();
             }
 
-            userAccount.VerificationToken = null;
             userAccount.IsVerified = true;
+            userAccount.VerificationToken = null;
+            await _userDbContext.SaveChangesAsync();
 
             return Ok("Verification was successful");
         }
 
         [HttpPost("forgot-password")]
-        public async Task<ActionResult> ForgotPassword(string email)
+        public async Task<ActionResult> ForgotPassword([FromBody] string email)
         {
             var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.EmailAddress == email);
 
@@ -148,7 +153,7 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<ActionResult> ResetPassword(ResetPasswordRequest request)
+        public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
             var userAccount = await _userDbContext.Users.FirstOrDefaultAsync(account => account.PasswordResetToken == request.ResetToken);
 
@@ -165,6 +170,40 @@ namespace UserManagement.Controllers
             await _userDbContext.SaveChangesAsync();
 
             return Ok("Succesfully reset password");
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UserDto user)
+        {
+            var existingUser = await _userDbContext.Users.SingleOrDefaultAsync(existingUser => existingUser.Id == user.Id);
+
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            existingUser = _mapper.Map(user, existingUser);
+
+            _userDbContext.Users.Update(existingUser);
+            await _userDbContext.SaveChangesAsync();
+
+            return Ok(existingUser);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var user = await _userDbContext.Users.FindAsync(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            _userDbContext.Users.Remove(user);
+            await _userDbContext.SaveChangesAsync();
+
+            return Ok();
         }
 
         private string GenerateJwtToken(User userAccount)
@@ -222,36 +261,6 @@ namespace UserManagement.Controllers
         private int GenerateRandomCode()
         {
             return RandomNumberGenerator.GetInt32(100000, 1000000);
-        }
-
-        [HttpPut]
-        public async Task<ActionResult> Update(User user)
-        {
-            if (!_userDbContext.Users.Any(existingUser => existingUser.Id == user.Id))
-            {
-                return NotFound();
-            }
-
-            _userDbContext.Users.Update(user);
-            await _userDbContext.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            var user = await _userDbContext.Users.FindAsync(id);
-
-            if (user is null)
-            {
-                return NotFound();
-            }
-
-            _userDbContext.Users.Remove(user);
-            await _userDbContext.SaveChangesAsync();
-
-            return Ok();
         }
     }
 }

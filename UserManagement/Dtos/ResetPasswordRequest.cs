@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace UserManagement.Models
+namespace UserManagement.Dtos
 {
     public class ResetPasswordRequest
     {
